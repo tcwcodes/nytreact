@@ -48,9 +48,13 @@ app.get("/api/test", (req, res) => {
     res.send("Yay");
 });
 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "client/build/index.html"))
-})
+app.get("*", (req, res) => {
+   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
+// app.use((req, res) => {
+//     res.sendFile(path.join(__dirname, "client/build/index.html"))
+// })
 
 app.listen(PORT, function() {
     console.log(`You are listening on Port ${PORT}`);
