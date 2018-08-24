@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
-require("dotenv").config()
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytreact");
 
 const db = require("./models");
