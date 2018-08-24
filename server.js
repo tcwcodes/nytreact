@@ -3,16 +3,22 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
+require("dotenv").config()
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytreact");
 
 const db = require("./models");
 
 const PORT = process.env.PORT || 3001;
 
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static("client/build"));
+// Static
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "client", "build")));
+ }
+
+// app.use(express.static("client/build"));
 
 // app.get("/populate", (req, res) => {
 //     db.Article.create({ title: "test title 2", date: "test date 2", url: "test url 2" })
