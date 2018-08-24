@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path")
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytreact");
 
 const db = require("./models");
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "client", "build")))
 
 // app.get("/populate", (req, res) => {
 //     db.Article.create({ title: "test title 2", date: "test date 2", url: "test url 2" })
@@ -37,6 +39,10 @@ app.post("/api/delete", (req, res) => {
 
 app.get("/api/test", (req, res) => {
     res.send("Yay");
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 app.listen(PORT, function() {
